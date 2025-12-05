@@ -1,0 +1,47 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "DangQuangSon_layout";
+}
+@model DangQuanSon_231230885.Models.HangHoa
+@section Styles {
+    <style>
+        span {
+            color: red;
+        }
+    </style>
+}
+<div>
+    <h2>Create</h2>
+    <form asp-controller="Home" asp-action="Create" method="post">
+        <div style="margin-top:10px" class="form-group row">
+            <label asp-for="MaLoai" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-5">
+                <select asp-for="MaLoai" class="form-control" asp-items="ViewBag.Menu"></select>
+            </div>
+            <span asp-validation-for="MaLoai"></span>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="TenHang" class="control-label"></label>
+            <input asp-for="TenHang" class="form-control" />
+            <span asp-validation-for="TenHang" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Gia" class="control-label"></label>
+            <input asp-for="Gia" class="form-control" />
+            <span asp-validation-for="Gia" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Anh" class="control-label"></label>
+            <input asp-for="Anh" type ="file" class="form-control" />
+            <span asp-validation-for="Anh" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>

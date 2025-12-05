@@ -1,0 +1,39 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<DangQuanSon_231230885.Models.HangHoa>
+@TempData
+<div class="content">
+	<!-- Begin New Product -->
+	<div class="content_top">
+		<div class="heading">
+			<h3>@TempData["name"]</h3>
+		</div>
+		<div class="see">
+			<p><a href="#">See all Products</a></p>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="section group">
+		@foreach(var hanghoa in Model)
+		{
+			<div class="grid_1_of_4 images_1_of_4">
+				<a href="preview.html"><img src="images/@hanghoa.Anh" alt="" /></a>
+				<h2>@hanghoa.TenHang </h2>
+				<div class="price-details">
+					<div class="price-number">
+						<p><span class="rupees">@hanghoa.Gia</span></p>
+					</div>
+					<div class="add-cart">
+						<h4><a href="preview.html">Add to Cart</a></h4>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+
+		}
+	</div>
+	<!-- End New Product -->
+</div>
