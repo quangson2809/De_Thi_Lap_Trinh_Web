@@ -35,6 +35,7 @@ namespace DangQuanSon_231230885.Controllers
         [HttpGet]
         public IActionResult FillterByCategory(int id)
         {
+            TempData["name"] = "Dang Quang Son";
             List<HangHoa> list = systemDbContext.HangHoas
                                     .Where(h => h.MaLoai == id && h.Gia >= 100)
                                     .ToList();
@@ -44,6 +45,7 @@ namespace DangQuanSon_231230885.Controllers
         [HttpGet()]
         public IActionResult Create()
         {
+
             ViewBag.Menu = new List<SelectListItem>();
             
             List<LoaiHang> categories = systemDbContext.LoaiHangs.ToList();
@@ -57,36 +59,37 @@ namespace DangQuanSon_231230885.Controllers
 
         [HttpPost()]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("MaLoai, TenHang, Gia")] HangHoa hanghoa, IFormFile? photoPath)
+        public IActionResult Create([Bind("MaLoai, TenHang, Gia, Anh")] HangHoaCreate hanghoacreate)
         {
+            TempData["name"]= "Dang Quang Son";
 
             //s.DateOfBirth = Convert.ToDateTime(s.DateOfBirth.ToString());
-            if (photoPath != null && photoPath.Length > 0)
+            if (ModelState.IsValid)
             {
-                var extension = Path.GetExtension(photoPath.FileName);
+                var extension = Path.GetExtension(hanghoacreate.Anh.FileName);
 
-                var fileName = $"{hanghoa.TenHang}{extension}";
+                var fileName = $"{hanghoacreate.TenHang}{extension}";
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    photoPath.CopyTo(stream);
+                    hanghoacreate.Anh.CopyTo(stream);
                 }
+
+                HangHoa hanghoa = new HangHoa();
+
                 hanghoa.Anh = fileName;
-            }
-
-            if (ModelState.IsValid)
-            {
-
+                hanghoa.MaLoai = hanghoacreate.MaLoai;
+                hanghoa.TenHang = hanghoacreate.TenHang;
+                hanghoa.Gia = hanghoacreate.Gia;
                 //systemDbContext.HangHoas.Add(hanghoa);
                 //systemDbContext.SaveChanges();
-                //return RedirectToAction(nameof(Index));
-                return View("Index");
+                return RedirectToAction(nameof(Index));
             }
-            // set lại ViewBag
-            ViewBag.Menu = new SelectList(systemDbContext.LoaiHangs ,"MaLoai","TenLoai",hanghoa.MaLoai);
 
-            return View(hanghoa);
+            // set lại ViewBag
+            ViewBag.Menu = new SelectList(systemDbContext.LoaiHangs ,"MaLoai","TenLoai",hanghoacreate.MaLoai);
+            return View(hanghoacreate);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

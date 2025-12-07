@@ -6,16 +6,14 @@ namespace DangQuanSon_231230885.Models;
 
 public partial class HangHoa
 {
-    [Required]
     public int MaHang { get; set; }
-    [Required]
+    [Required(ErrorMessage="loại hàng không được bỏ trống")]
     public int MaLoai { get; set; }
-    [Required]
+    [Required(ErrorMessage="Tên hàng không được bỏ trống")]
     public string TenHang { get; set; } = null!;
-    [Required]
+    [Required(ErrorMessage="giá khôg được bỏ trống")]
     [Range(100,5000,ErrorMessage ="giá 100 -> 5000")]
     public decimal? Gia { get; set; }
-    [Required]
     public string? Anh { get; set; }
 
     public virtual LoaiHang MaLoaiNavigation { get; set; } = null!;
